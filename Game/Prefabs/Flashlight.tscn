@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqjsgfjv53is3"]
+
+[ext_resource type="Script" uid="uid://bw4kdapih5p7t" path="res://Game/Scripts/Items/Flashlight.cs" id="1_clean"]
+[ext_resource type="PackedScene" uid="uid://csn8bvlsihbxh" path="res://Game/Art/Textures/FlashLight.glb" id="2_igyvb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_igyvb"]
+size = Vector3(0.24951172, 0.27166748, 0.8135376)
+
+[node name="Flashlight" type="RigidBody3D" node_paths=PackedStringArray("LightSource")]
+mass = 1.5
+script = ExtResource("1_clean")
+LightSource = NodePath("SpotLight3D")
+
+[node name="FlashLight" parent="." instance=ExtResource("2_igyvb")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.39980018)
+light_color = Color(1.113099, 0.9579287, 0, 1)
+light_energy = 2.0
+spot_range = 20.0
+spot_angle = 33.87
+spot_angle_attenuation = 0.8705506
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.6922584, 0, 0, 0, 1.4409511, 0, 0, 0, 1.869502, -0.007080078, 0.010772705, -0.013092041)
+shape = SubResource("BoxShape3D_igyvb")

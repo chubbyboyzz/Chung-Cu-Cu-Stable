@@ -1,0 +1,31 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# --- GODOT ---
+.godot/
+/android/
+/ios/
+*.translation
+export_presets.cfg
+
+# --- C# / .NET 
+.mono/
+.vs/
+/bin/
+/obj/
+*.csproj.user
+*.sln.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# --- Windows / Mac OS Garbage ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Build Outputs (Khi export game ra file exe) ---
+/Builds/
+/Exports/

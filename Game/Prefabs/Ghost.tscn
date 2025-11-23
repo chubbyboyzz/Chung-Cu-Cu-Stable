@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxu8jsea3ydp6"]
+
+[ext_resource type="Script" uid="uid://drqhgsl5wrpsh" path="res://Game/Scripts/Entities/Ghost.cs" id="1_lee6i"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_m6kb8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kth5a"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7xtkf"]
+
+[node name="Ghost" type="CharacterBody3D"]
+script = ExtResource("1_lee6i")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_m6kb8")
+surface_material_override/0 = SubResource("StandardMaterial3D_kth5a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_7xtkf")

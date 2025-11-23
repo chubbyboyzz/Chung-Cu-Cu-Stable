@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://bporfyb4i1qwq"]
+
+[ext_resource type="PackedScene" uid="uid://boee65t4mts6s" path="res://Game/Prefabs/Player.tscn" id="1_3nxic"]
+[ext_resource type="Script" uid="uid://c27d2yhdtxqfq" path="res://Game/Scripts/Test/TestCube.cs" id="2_0bqpm"]
+[ext_resource type="PackedScene" uid="uid://bqjsgfjv53is3" path="res://Game/Prefabs/Flashlight.tscn" id="4_stbj8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ckvnm"]
+size = Vector3(0.1, 5, 2)
+
+[sub_resource type="Environment" id="Environment_0bqpm"]
+background_mode = 1
+background_color = Color(0.11764706, 0.105882354, 0.24705882, 1)
+background_energy_multiplier = 1.48
+fog_light_energy = 0.48
+fog_density = 0.17
+
+[node name="Level_Test" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(60, 1, 60)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.19251627, 0.93153906, -0.30850044, 0.7408767, 0.06816754, 0.6681728, 0.64345866, -0.3571949, -0.6770323, 8.774181, 5.7276483, -8.358863)
+
+[node name="Hop_Test" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 29.825438, -29.909424, 3.0325422, -0.21344995)
+script = ExtResource("2_0bqpm")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Hop_Test"]
+size = Vector3(0.1, 5, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hop_Test"]
+shape = SubResource("BoxShape3D_ckvnm")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0bqpm")
+
+[node name="Hop_Test2" type="StaticBody3D" parent="."]
+transform = Transform3D(-0.9999585, 0, 0.27172485, 0, 1, 0, -0.00911051, 0, -29.8242, 29.682983, 3.0325422, -0.21344995)
+script = ExtResource("2_0bqpm")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Hop_Test2"]
+size = Vector3(0.1, 5, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hop_Test2"]
+shape = SubResource("BoxShape3D_ckvnm")
+
+[node name="Hop_Test3" type="StaticBody3D" parent="."]
+transform = Transform3D(0.009791117, 0, 29.824009, 0, 0.99999994, 0, -0.99995214, 0, 0.29202434, 0.3323059, 3.0325422, -30.007374)
+script = ExtResource("2_0bqpm")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Hop_Test3"]
+size = Vector3(0.1, 5, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hop_Test3"]
+shape = SubResource("BoxShape3D_ckvnm")
+
+[node name="Hop_Test4" type="StaticBody3D" parent="."]
+transform = Transform3D(0.009791117, 0, 29.824009, 0, 0.99999994, 0, -0.99995214, 0, 0.29202434, 0.3323059, 3.0325422, 29.501034)
+script = ExtResource("2_0bqpm")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Hop_Test4"]
+size = Vector3(0.1, 5, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hop_Test4"]
+shape = SubResource("BoxShape3D_ckvnm")
+
+[node name="Player" parent="." instance=ExtResource("1_3nxic")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0858088, 1.553484, 1.5045993)
+
+[node name="Flashlight" parent="." instance=ExtResource("4_stbj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2647, 2.4256392, -0.18726349)

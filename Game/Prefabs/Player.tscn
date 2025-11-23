@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://boee65t4mts6s"]
+
+[ext_resource type="Script" uid="uid://3qdquomlxfuj" path="res://Game/Scripts/Entities/Player.cs" id="1_s7sev"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ehrn4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s7sev"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_s7sev"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CameraPivot", "InteractionRay", "InteractionLabel") groups=["Player"]]
+script = ExtResource("1_s7sev")
+CameraPivot = NodePath("CameraPivot")
+InteractionRay = NodePath("CameraPivot/Camera3D/RayCast3D")
+InteractionLabel = NodePath("HUD/CenterContainer/InteractionLabel")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027855843, -0.05348426, -0.0031833053)
+mesh = SubResource("CapsuleMesh_ehrn4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_s7sev")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -0.2)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+visible = false
+near = 0.008
+far = 50.0
+
+[node name="RayCast3D" type="RayCast3D" parent="CameraPivot/Camera3D"]
+target_position = Vector3(0, 0, -3)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Crosshair" type="ColorRect" parent="HUD/CenterContainer"]
+custom_minimum_size = Vector2(2, 2)
+layout_mode = 2
+color = Color(0.69919544, 2.0816549e-06, 6.738305e-07, 1)
+
+[node name="InteractionLabel" type="Label" parent="HUD/CenterContainer"]
+layout_mode = 2
+text = "abc"
+label_settings = SubResource("LabelSettings_s7sev")
