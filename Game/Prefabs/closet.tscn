@@ -1,0 +1,136 @@
+[gd_scene load_steps=9 format=3 uid="uid://cdc71mytpt5nd"]
+
+[ext_resource type="Script" uid="uid://bkk6gsme2h7i0" path="res://Game/Scripts/Items/Closet.cs" id="1_lj13x"]
+[ext_resource type="PackedScene" uid="uid://c1seyulhmp1mc" path="res://Game/Art/Models/Closet.glb" id="1_xaloo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lj13x"]
+size = Vector3(1.0024414, 1.2079468, 0.488739)
+
+[sub_resource type="Animation" id="Animation_3s00d"]
+resource_name = "Hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root Scene/RootNode/Closet_LeftDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5707964, -1.5707964, 0), Vector3(-1.5707964, -0.08726646, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root Scene/RootNode/Closet_RightDoor:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.03, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5707964, 1.5707964, 0), Vector3(-1.5707964, 0.08726646, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cjd4v"]
+resource_name = "Open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root Scene/RootNode/Closet_LeftDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0), Vector3(-1.5707964, -1.5707964, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root Scene/RootNode/Closet_RightDoor:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0), Vector3(-1.5707964, 1.5707964, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4y5sw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root Scene/RootNode/Closet_LeftDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Root Scene/RootNode/Closet_RightDoor:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d3ngx"]
+_data = {
+&"Hide": SubResource("Animation_3s00d"),
+&"Open": SubResource("Animation_cjd4v"),
+&"RESET": SubResource("Animation_4y5sw")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cjd4v"]
+size = Vector3(0.36663818, 4.6361046, 0.7988281)
+
+[node name="Closet" type="StaticBody3D" node_paths=PackedStringArray("AnimPlayer", "HidingSpot", "ExitPoint")]
+script = ExtResource("1_lj13x")
+AnimPlayer = NodePath("AnimationPlayer")
+HidingSpot = NodePath("HidingSpot")
+ExitPoint = NodePath("ExitPoint")
+KillDistance = 10.0
+
+[node name="Root Scene" parent="." instance=ExtResource("1_xaloo")]
+
+[node name="Closet_LeftDoor" parent="Root Scene/RootNode" index="0"]
+transform = Transform3D(100, 0, 0, 0, -4.371139e-06, 100, 0, -100, -4.371139e-06, -0.67184937, 1.539733, 0.36768466)
+
+[node name="Closet_RightDoor" parent="Root Scene/RootNode" index="1"]
+transform = Transform3D(100, 0, 0, 0, -4.371139e-06, 100, 0, -100, -4.371139e-06, 0.67047393, 1.539733, 0.3676847)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5072908, 0, 0, 0, 2.453156, 0, 0, 0, 1.5762011, 0.0018399546, 1.4975425, -0.043942)
+shape = SubResource("BoxShape3D_lj13x")
+
+[node name="HidingSpot" type="Marker3D" parent="."]
+transform = Transform3D(-0.99943906, 0.00093255704, -0.033477664, 0.00039114608, 2.1968994, 0.0010025399, 0.03347811, 0.0021724794, -0.99943864, -0.0075931996, 0.87651473, 0.1680421)
+
+[node name="ExitPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_d3ngx")
+}
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.23790824, 0, 0, 0, 0.47686788, 0, 0, 0, 0.08115393, -0.0036955336, 1.6333262, 0.5013734)
+shape = SubResource("BoxShape3D_cjd4v")
+
+[editable path="Root Scene"]

@@ -7,72 +7,42 @@ namespace ChungCuCu_Stable.Game.Scripts.Entities
 {
     public partial class Player : CharacterBody3D
     {
-        [Export] public float Speed = 8.0f;
-        [Export] public float JumpVelocity = 4.5f;
-        [Export] public float Gravity = 9.8f;
+        [Export] public float Speed = 5.0f;
         [Export] public float MouseSensitivity = 0.003f;
 
         [Export] public Node3D CameraPivot;
         [Export] public RayCast3D InteractionRay;
-
-        // --- THÊM DÒNG NÀY: Biến tham chiếu tới cái Label vừa tạo ---
         [Export] public Label InteractionLabel;
+        [Export] public Flashlight AttachedFlashlight;
 
         private Flashlight _currentFlashlight = null;
+
+        // BIẾN PUBLIC (Viết Hoa chữ cái đầu)
+        public bool IsHiding = false;
+
+        private CollisionShape3D _playerCollider;
 
         public override void _Ready()
         {
             Input.MouseMode = Input.MouseModeEnum.Captured;
-        }
+            _playerCollider = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
 
-        public override void _Input(InputEvent @event)
-        {
-            // Logic xoay chuột
-            if (@event is InputEventMouseMotion mouseMotion)
-            {
-                RotateY(-mouseMotion.Relative.X * MouseSensitivity);
-                if (CameraPivot != null)
-                {
-                    CameraPivot.RotateX(-mouseMotion.Relative.Y * MouseSensitivity);
-                    Vector3 rot = CameraPivot.Rotation;
-                    rot.X = Mathf.Clamp(rot.X, Mathf.DegToRad(-90), Mathf.DegToRad(90));
-                    CameraPivot.Rotation = rot;
-                }
-            }
-
-            // Logic bật đèn
-            if (@event.IsActionPressed("toggle_flashlight"))
-            {
-                if (_currentFlashlight != null) _currentFlashlight.Toggle();
-            }
-            // logic ném đồ
-            if (@event.IsActionPressed("drop_item"))
-            {
-                if (_currentFlashlight != null)
-                {
-                    // 1. Tính hướng ném: Là hướng trước mặt của Camera
-                    // -CameraPivot.GlobalTransform.Basis.Z là hướng "Forward"
-                    Vector3 throwDirection = -CameraPivot.GlobalTransform.Basis.Z;
-
-                    // 2. Gọi hàm Drop bên Flashlight
-                    // Lực ném = Vận tốc nhân vật hiện tại + (Hướng ném * 5.0f lực mạnh)
-                    _currentFlashlight.Drop(Velocity + (throwDirection * 3.0f));
-
-                    // 3. Xóa tham chiếu đèn pin khỏi tay Player
-                    _currentFlashlight = null;
-                }
-            }
-
-            if (@event.IsActionPressed("ui_cancel")) Input.MouseMode = Input.MouseModeEnum.Visible;
-            if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed) Input.MouseMode = Input.MouseModeEnum.Captured;
+            if (AttachedFlashlight != null) _currentFlashlight = AttachedFlashlight;
+            if (InteractionRay != null) InteractionRay.AddException(this);
         }
 
         public override void _PhysicsProcess(double delta)
         {
-            Vector3 velocity = Velocity;
+            // SỬA LỖI 1: Dùng IsHiding (Viết hoa) thay vì _isHiding
+            if (IsHiding)
+            {
+                UpdateInteractionUI();
+                CheckInputInteraction();
+                return;
+            }
 
-            if (!IsOnFloor()) velocity.Y -= Gravity * (float)delta;
-            if (Input.IsActionJustPressed("ui_accept") && IsOnFloor()) velocity.Y = JumpVelocity;
+            Vector3 velocity = Velocity;
+            if (!IsOnFloor()) velocity.Y -= 9.8f * (float)delta;
 
             Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
             Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
@@ -91,76 +61,104 @@ namespace ChungCuCu_Stable.Game.Scripts.Entities
             Velocity = velocity;
             MoveAndSlide();
 
-           
             UpdateInteractionUI();
-
-            // Xử lý bấm nút tương tác
             CheckInputInteraction();
-
-            //if (InteractionRay.IsColliding())
-            //{
-            //    var collider = InteractionRay.GetCollider();
-            //    // In ra tên vật thể đang bị nhìn thấy
-            //    GD.Print("Đang nhìn thấy: " + (collider as Node).Name);
-            //}
-            //else
-            //{
-            //    // GD.Print("Không nhìn thấy gì");
-            //}
         }
 
-        // Hàm này chuyên lo việc HIỂN THỊ CHỮ (UI)
-        private void UpdateInteractionUI()
+        public override void _Input(InputEvent @event)
         {
-            // Nếu chưa gắn Label thì bỏ qua để tránh lỗi
-            if (InteractionLabel == null) return;
-
-            // Mặc định xóa chữ đi
-            InteractionLabel.Text = "";
-
-            // Nếu Raycast đang nhìn thấy gì đó
-            if (InteractionRay != null && InteractionRay.IsColliding())
+            if (@event is InputEventMouseMotion mouseMotion)
             {
-                var collider = InteractionRay.GetCollider();
+                float rotX = mouseMotion.Relative.X * MouseSensitivity;
+                float rotY = mouseMotion.Relative.Y * MouseSensitivity;
 
-                // Logic tìm Interface (giống hàm CheckInteraction cũ)
-                if (collider is Node node && node.GetParent() is IInteractable interactableParent)
+                // SỬA LỖI 1: Dùng IsHiding (Viết hoa)
+                if (IsHiding)
                 {
-                    // Lấy câu thông báo từ vật phẩm (VD: "Nhặt đèn pin [E]")
-                    InteractionLabel.Text = interactableParent.GetInteractionPrompt();
+                    Vector3 currentRot = CameraPivot.Rotation;
+                    currentRot.Y -= rotX;
+                    currentRot.X -= rotY;
+
+                    currentRot.Y = Mathf.Clamp(currentRot.Y, Mathf.DegToRad(-45), Mathf.DegToRad(45));
+                    currentRot.X = Mathf.Clamp(currentRot.X, Mathf.DegToRad(-15), Mathf.DegToRad(15));
+
+                    CameraPivot.Rotation = currentRot;
                 }
-                else if (collider is IInteractable interactableObject)
+                else
                 {
-                    InteractionLabel.Text = interactableObject.GetInteractionPrompt();
+                    RotateY(-rotX);
+                    if (CameraPivot != null)
+                    {
+                        CameraPivot.RotateX(-rotY);
+                        Vector3 rot = CameraPivot.Rotation;
+                        rot.X = Mathf.Clamp(rot.X, Mathf.DegToRad(-90), Mathf.DegToRad(90));
+                        CameraPivot.Rotation = rot;
+                    }
                 }
+            }
+
+            if (@event.IsActionPressed("toggle_flashlight") && _currentFlashlight != null) _currentFlashlight.Toggle();
+
+            if (@event.IsActionPressed("drop_item") && _currentFlashlight != null)
+            {
+                Vector3 throwDir = -CameraPivot.GlobalTransform.Basis.Z;
+                _currentFlashlight.Drop(Velocity + (throwDir * 5.0f));
+                _currentFlashlight = null;
             }
         }
 
-        // Hàm này chuyên lo việc XỬ LÝ BẤM NÚT (Logic)
+        public void EnterHidingState(Vector3 hidePos, Vector3 hideRot)
+        {
+            IsHiding = true; // Sửa thành IsHiding
+            if (_playerCollider != null) _playerCollider.Disabled = true;
+            GlobalPosition = hidePos;
+            GlobalRotation = hideRot;
+            CameraPivot.Rotation = Vector3.Zero;
+        }
+
+        
+        public void ExitHidingState(Vector3 exitPos, Vector3 exitRot)
+        {
+            IsHiding = false;
+
+            if (_playerCollider != null) _playerCollider.Disabled = false;
+
+            // 1. Đặt vị trí
+            GlobalPosition = exitPos;
+
+            // 2. Đặt hướng xoay (Dòng này quan trọng để sửa lỗi lệch cổ)
+            GlobalRotation = exitRot;
+
+            // 3. Reset cổ
+            CameraPivot.Rotation = Vector3.Zero;
+        }
+
+        private void UpdateInteractionUI()
+        {
+            if (InteractionLabel == null) return;
+            InteractionLabel.Text = "";
+            if (InteractionRay != null && InteractionRay.IsColliding())
+            {
+                var collider = InteractionRay.GetCollider();
+                if (collider is Node node && node.GetParent() is IInteractable interactableParent)
+                    InteractionLabel.Text = interactableParent.GetInteractionPrompt();
+                else if (collider is IInteractable interactableObject)
+                    InteractionLabel.Text = interactableObject.GetInteractionPrompt();
+            }
+        }
+
         private void CheckInputInteraction()
         {
             if (Input.IsActionJustPressed("interact") && InteractionRay != null && InteractionRay.IsColliding())
             {
                 var collider = InteractionRay.GetCollider();
-
                 if (collider is Node node && node.GetParent() is IInteractable interactableParent)
-                {
                     interactableParent.Interact(this);
-                    // Tương tác xong thì xóa chữ luôn cho đỡ vướng
-                    if (InteractionLabel != null) InteractionLabel.Text = "";
-                }
                 else if (collider is IInteractable interactableObject)
-                {
                     interactableObject.Interact(this);
-                    if (InteractionLabel != null) InteractionLabel.Text = "";
-                }
             }
         }
 
-        public void EquipFlashlight(Flashlight item)
-        {
-            _currentFlashlight = item;
-        }
+        public void EquipFlashlight(Flashlight item) { _currentFlashlight = item; }
     }
 }
-
