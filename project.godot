@@ -77,6 +77,11 @@ drop_item={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://Languages/strings.en.translation", "res://Languages/strings.vi.translation")
+locale/test="vi"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

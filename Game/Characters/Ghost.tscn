@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxu8jsea3ydp6"]
+
+[ext_resource type="Script" uid="uid://drqhgsl5wrpsh" path="res://Scripts/Characters/Ghost.cs" id="1_icgt5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_m6kb8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kth5a"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7xtkf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_icgt5"]
+size = Vector3(1, 1.1583252, 1.5212708)
+
+[node name="Ghost" type="CharacterBody3D" node_paths=PackedStringArray("NavAgent", "Eyes", "PatrolPoints") groups=["Ghost"]]
+script = ExtResource("1_icgt5")
+NavAgent = NodePath("NavigationAgent3D")
+Eyes = NodePath("Eyes")
+PatrolPoints = []
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.75130355, 0, 0, 0, 1, 0, 0, 0, 0.59307516, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_m6kb8")
+surface_material_override/0 = SubResource("StandardMaterial3D_kth5a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.75130355, 0, 0, 0, 1, 0, 0, 0, 0.7401254, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_7xtkf")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="Eyes" type="RayCast3D" parent="."]
+transform = Transform3D(-0.017906109, -0.9998396, 0, 0.9998396, -0.017906109, 0, 0, 0, 1, 0, 1.4510131, 0)
+target_position = Vector3(0, -1, -20)
+hit_from_inside = true
+
+[node name="DoorDetector" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorDetector"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.1187439, -1.1916412)
+shape = SubResource("BoxShape3D_icgt5")
+
+[connection signal="body_entered" from="DoorDetector" to="." method="_on_door_detector_body_entered"]

@@ -116,6 +116,7 @@ transform = Transform3D(100, 0, 0, 0, -4.371139e-06, 100, 0, -100, -4.371139e-06
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5072908, 0, 0, 0, 2.453156, 0, 0, 0, 1.5762011, 0.0018399546, 1.4975425, -0.043942)
+visible = false
 shape = SubResource("BoxShape3D_lj13x")
 
 [node name="HidingSpot" type="Marker3D" parent="."]
