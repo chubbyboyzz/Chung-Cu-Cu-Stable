@@ -1,19 +1,23 @@
 using Godot;
 using System;
 using ChungCuCu_Stable.Game.Scripts.Core;
-using ChungCuCu_Stable.Game.Scripts.Core.Interfaces; // Interface cho Ma
-using ChungCuCu_Stable.Game.Scripts.Core.Constants;  // Localization Key
-using ChungCuCu_Stable.Game.Scripts.Characters;      // Namespace chứa Player
+using ChungCuCu_Stable.Game.Scripts.Core.Interfaces;
+using ChungCuCu_Stable.Game.Scripts.Core.Constants;
+using ChungCuCu_Stable.Game.Scripts.Characters;
+using ChungCuCu_Stable.Game.Scripts.Resources;
 
 namespace ChungCuCu_Stable.Game.Scripts.Interactables
 {
-    // Kế thừa IGhostInteractable để Ma có thể tác động vào đèn (ví dụ làm tắt đèn)
     public partial class Flashlight : RigidBody3D, IInteractable, IGhostInteractable
     {
         [Export] public SpotLight3D LightSource;
 
+        // Dữ liệu thẻ bài để vào túi đồ
+        [ExportGroup("Inventory")]
+        [Export] public ItemData ItemInfo;
+
         private bool _isOn = false;
-        private bool _isHeld = false; // Biến kiểm tra xem đang nằm trên tay hay dưới đất
+        private bool _isHeld = false;
 
         public override void _Ready()
         {
@@ -22,49 +26,36 @@ namespace ChungCuCu_Stable.Game.Scripts.Interactables
 
         public string GetInteractionPrompt()
         {
-            // Dùng Key đa ngôn ngữ
             return Tr(LocKeys.INTERACT_PICKUP_FLASHLIGHT);
         }
 
-        // --- HÀM NGƯỜI NHẶT ---
+        // --- HÀM NGƯỜI NHẶT (ĐÃ GỘT RỬA SẠCH SẼ LỖI CŨ) ---
         public void Interact(Node interactor)
         {
-            // Kiểm tra xem interactor có phải là Player (thuộc namespace Characters) không
             if (interactor is Player player)
             {
-                player.EquipFlashlight(this);
-                _isHeld = true;
-
-                // 1. Tắt vật lý
-                Freeze = true;
-
-                // 2. Tắt va chạm (Tìm collider an toàn hơn)
-                var collider = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
-                if (collider != null) collider.Disabled = true;
-
-                // 3. Chuyển nhà về tay Player
-                // Lưu ý: false để giữ transform tương đối, sau đó ta set lại tay bo
-                this.Reparent(player.CameraPivot, false);
-
-                Position = new Vector3(0.3f, -0.25f, -0.5f);
-                Rotation = Vector3.Zero;
-                Scale = new Vector3(0.15f, 0.15f, 0.15f);
-
-                GD.Print("Đã nhặt đèn!");
+                // NẾU CÓ DỮ LIỆU TÚI ĐỒ -> Đưa vào túi
+                if (ItemInfo != null)
+                {
+                    player.AddItem(ItemInfo);
+                    GD.Print("[FLASHLIGHT] Đã nhặt đèn pin vào túi đồ!");
+                    QueueFree(); // Xóa khỏi mặt đất
+                }
+                // NẾU QUÊN GẮN DỮ LIỆU -> Báo lỗi đỏ ra Log chứ không làm sập game nữa
+                else
+                {
+                    GD.PrintErr("[FLASHLIGHT LỖI] Ông chưa kéo file Item_Flashlight.tres vào ô Item Info của cái đèn pin dưới đất!");
+                }
             }
         }
 
-        // --- HÀM MA TƯƠNG TÁC (IGhostInteractable) ---
+        // --- HÀM MA TƯƠNG TÁC ---
         public void OnGhostInteract(Node ghost)
         {
-            // Logic: Nếu đèn đang nằm dưới đất (_isHeld = false) và đang BẬT
-            // Mà Ma đi qua -> Đèn tự tắt (Hù player)
             if (!_isHeld && _isOn)
             {
                 GD.Print("[ĐÈN PIN] Ma dẫm phải đèn -> Tắt ngóm!");
-                Toggle(); // Tắt đèn
-
-                // (Nâng cao) Có thể thêm hiệu ứng chớp tắt vài cái rồi mới tắt hẳn ở đây
+                Toggle();
             }
         }
 
@@ -73,29 +64,31 @@ namespace ChungCuCu_Stable.Game.Scripts.Interactables
         {
             _isHeld = false;
 
-            // 1. Chuyển nhà ra Scene gốc
+            // Đưa lại ra ngoài thế giới thực
             this.Reparent(GetTree().CurrentScene, true);
 
-            // 2. Bật lại vật lý
+            // Bật lại vật lý và va chạm
             Freeze = false;
-
-            // 3. Bật lại va chạm
             var collider = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
             if (collider != null) collider.Disabled = false;
 
-            // 4. Ném đi
+            // Tác dụng lực ném
             LinearVelocity = dropVelocity;
 
-            // Scale to ra 1 chút để dễ tìm lại 
-            // Scale = Vector3.One; 
-
-            GD.Print("Đã vứt đèn!");
+            GD.Print("[FLASHLIGHT] Đã vứt đèn!");
         }
 
+        // --- CÁC HÀM XỬ LÝ ÁNH SÁNG ---
         public void Toggle()
         {
             _isOn = !_isOn;
             if (LightSource != null) LightSource.Visible = _isOn;
+        }
+
+        public void TurnOn()
+        {
+            _isOn = true;
+            if (LightSource != null) LightSource.Visible = true;
         }
     }
 }

@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfjnqkwioovm"]
+
+[ext_resource type="Script" uid="uid://bloq8gwy4mntj" path="res://Scripts/UI/InventoryUI.cs" id="1_tqois"]
+
+[node name="InventoryUi" type="Control" node_paths=PackedStringArray("ItemListNode")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 61.0
+offset_top = 57.0
+offset_right = -64.0
+offset_bottom = -51.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tqois")
+ItemListNode = NodePath("Panel/ItemList")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_top = 2.0000038
+offset_right = 38.405563
+offset_bottom = 38.296574
+scale = Vector2(4.9992757, 3.498953)
+
+[node name="ItemList" type="ItemList" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = nan
+anchor_top = nan
+anchor_right = nan
+anchor_bottom = nan
+offset_left = nan
+offset_top = nan
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(inf_neg, 4.3333335)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.98538715, 0, 0.17594326, 1)
+max_columns = 5
+same_column_width = true
+icon_mode = 0
+fixed_icon_size = Vector2i(64, 64)
+metadata/_edit_use_anchors_ = true

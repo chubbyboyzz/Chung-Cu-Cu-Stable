@@ -1,9 +1,9 @@
 keys,vi,en
-INTERACT_OPEN_DOOR,Mở cửa [E],Open Door [E]
-INTERACT_CLOSE_DOOR,Đóng cửa [E],Close Door [E]
-INTERACT_OPEN_CLOSET,Mở tủ [E],Open Closet [E]
-INTERACT_PICKUP_ITEM,Nhặt [E],Pick up [E]
-INTERACT_OPEN_CLOSET,Mở tủ [E],Open Closet [E]
-INTERACT_HIDE,Trốn vào [E],Hide [E]
+INTERACT_OPEN_DOOR,M? c?a [E],Open Door [E]
+INTERACT_CLOSE_DOOR,?�ng c?a [E],Close Door [E]
+INTERACT_OPEN_CLOSET,M? t? [E],Open Closet [E]
+INTERACT_PICKUP_ITEM,nh?t [E],Pick up [E]
+ITEM_FLASHLIGHT,?�n Pin,Flashlight
+INTERACT_HIDE,Tr?n v�o [E],Hide [E]
 INTERACT_EXIT_HIDING,Chui ra [E],Exit [E]
-INTERACT_PICKUP_FLASHLIGHT,Nhặt đèn pin [E],Pick up Flashlight [E]
+INTERACT_PICKUP_FLASHLIGHT,Nh?t ?�n Pin [E],Pick up Flashlight [E]

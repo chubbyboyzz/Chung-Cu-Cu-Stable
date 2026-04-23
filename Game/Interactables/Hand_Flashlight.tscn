@@ -1,19 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqjsgfjv53is3"]
+[gd_scene load_steps=4 format=3 uid="uid://c1snjxr473gpc"]
 
-[ext_resource type="Script" uid="uid://bw4kdapih5p7t" path="res://Scripts/Interactables/Flashlight.cs" id="1_clean"]
-[ext_resource type="PackedScene" uid="uid://csn8bvlsihbxh" path="res://Game/Art/Textures/FlashLight.glb" id="2_igyvb"]
-[ext_resource type="Resource" uid="uid://dtxxk5p3wdm2s" path="res://Scripts/Resources/Item_Flashlight.tres" id="2_ps0cb"]
+[ext_resource type="Script" uid="uid://bw4kdapih5p7t" path="res://Scripts/Interactables/Flashlight.cs" id="1_yqmd7"]
+[ext_resource type="PackedScene" uid="uid://csn8bvlsihbxh" path="res://Game/Art/Textures/FlashLight.glb" id="3_mat8v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_igyvb"]
 size = Vector3(0.24951172, 0.27166748, 0.8135376)
 
 [node name="Flashlight" type="RigidBody3D" node_paths=PackedStringArray("LightSource")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 mass = 1.5
-script = ExtResource("1_clean")
+script = ExtResource("1_yqmd7")
 LightSource = NodePath("SpotLight3D")
-ItemInfo = ExtResource("2_ps0cb")
 
-[node name="FlashLight" parent="." instance=ExtResource("2_igyvb")]
+[node name="FlashLight" parent="." instance=ExtResource("3_mat8v")]
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.39980018)

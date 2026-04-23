@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://boee65t4mts6s"]
+[gd_scene load_steps=6 format=3 uid="uid://boee65t4mts6s"]
 
 [ext_resource type="Script" uid="uid://3qdquomlxfuj" path="res://Scripts/Characters/Player.cs" id="1_s7sev"]
+[ext_resource type="PackedScene" uid="uid://cfjnqkwioovm" path="res://Game/Scenes/InventoryUI.tscn" id="2_nygmm"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ehrn4"]
 
@@ -8,11 +9,13 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_s7sev"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CameraPivot", "InteractionRay", "InteractionLabel") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CameraPivot", "InteractionRay", "InteractionLabel", "InventoryScreen", "HandPosition") groups=["Player"]]
 script = ExtResource("1_s7sev")
 CameraPivot = NodePath("CameraPivot")
 InteractionRay = NodePath("CameraPivot/Camera3D/RayCast3D")
 InteractionLabel = NodePath("HUD/CenterContainer/InteractionLabel")
+InventoryScreen = NodePath("HUD/InventoryUi")
+HandPosition = NodePath("CameraPivot/HandPosition")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027855843, -0.05348426, -0.0031833053)
@@ -31,6 +34,9 @@ far = 50.0
 [node name="RayCast3D" type="RayCast3D" parent="CameraPivot/Camera3D"]
 visible = false
 target_position = Vector3(0, 0, -3)
+
+[node name="HandPosition" type="Marker3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.3, -0.5)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -52,3 +58,5 @@ color = Color(0.69919544, 2.0816549e-06, 6.738305e-07, 1)
 layout_mode = 2
 text = "abc"
 label_settings = SubResource("LabelSettings_s7sev")
+
+[node name="InventoryUi" parent="HUD" instance=ExtResource("2_nygmm")]

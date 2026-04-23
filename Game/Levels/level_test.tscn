@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bporfyb4i1qwq"]
+[gd_scene load_steps=12 format=3 uid="uid://bporfyb4i1qwq"]
 
 [ext_resource type="PackedScene" uid="uid://boee65t4mts6s" path="res://Game/Characters/Player.tscn" id="1_3nxic"]
 [ext_resource type="Script" uid="uid://c27d2yhdtxqfq" path="res://Scripts/Test/TestCube.cs" id="2_0bqpm"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bqjsgfjv53is3" path="res://Game/Interactables/Flashlight.tscn" id="4_stbj8"]
 [ext_resource type="PackedScene" uid="uid://d2134scemqrwn" path="res://Game/Interactables/door.tscn" id="5_nymhu"]
 [ext_resource type="PackedScene" uid="uid://cxu8jsea3ydp6" path="res://Game/Characters/Ghost.tscn" id="5_schtk"]
+[ext_resource type="PackedScene" uid="uid://dvdt71mlo3l5e" path="res://Game/Levels/repair.glb" id="7_acl4f"]
+[ext_resource type="PackedScene" uid="uid://dstuvirh7brqx" path="res://Game/Art/Models/Key.glb" id="8_2byqp"]
 
 [sub_resource type="Environment" id="Environment_0bqpm"]
 background_mode = 1
@@ -15,8 +17,8 @@ fog_light_energy = 0.48
 fog_density = 0.17
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_nymhu"]
-vertices = PackedVector3Array(2.25, 1, -3.3493958, 3.25, 1, -3.5993958, 3.25, 1, -29.599396, -29.5, 1, -29.849396, -29.5, 1, -2.5993958, 2.25, 1, -2.5993958, 7.75, 1, -3.3493958, 8, 1, -2.8493958, 8.25, 1, -2.8493958, 8.25, 1, -29.599396, 4.5, 1, -2.8493958, 5.75, 1, -2.8493958, 6, 1, -3.3493958, 4.25, 1, -3.5993958, 29.25, 1, -2.8493958, 29.5, 1, -29.349396, 2.75, 3.75, -3.0993958, 2.75, 3.75, -2.3493958, 4, 3.75, -2.3493958, 4, 3.75, -3.0993958, 6, 1, -2.3493958, 4.25, 1, -1.8493958, 2.5, 1, -1.8493958, 1.5, 1, 29.150604, 7.5, 1, -2.3493958, 7.5, 1, 29.150604, 2.25, 1, -2.3493958, 29, 1, 29.400604, -29.5, 1, 28.900604)
-polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(0, 5, 4), PackedInt32Array(7, 6, 8), PackedInt32Array(8, 6, 9), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 13), PackedInt32Array(13, 1, 2), PackedInt32Array(12, 13, 6), PackedInt32Array(6, 13, 9), PackedInt32Array(9, 13, 2), PackedInt32Array(14, 8, 15), PackedInt32Array(15, 8, 9), PackedInt32Array(19, 18, 16), PackedInt32Array(16, 18, 17), PackedInt32Array(11, 20, 10), PackedInt32Array(10, 20, 21), PackedInt32Array(21, 23, 22), PackedInt32Array(20, 24, 21), PackedInt32Array(21, 24, 25), PackedInt32Array(21, 25, 23), PackedInt32Array(23, 26, 22), PackedInt32Array(24, 7, 8), PackedInt32Array(8, 14, 24), PackedInt32Array(24, 14, 25), PackedInt32Array(25, 14, 27), PackedInt32Array(26, 23, 5), PackedInt32Array(5, 23, 28), PackedInt32Array(5, 28, 4)]
+vertices = PackedVector3Array(2.25, 1, -3.3493958, 3.25, 1, -3.5993958, 3.25, 1, -29.599396, -29.5, 1, -29.849396, -29.5, 1, -2.5993958, 2.25, 1, -2.5993958, 8, 1, -2.8493958, 7.5, 1, -2.3493958, 7.5, 1, 29.150604, 30.25, 1, 29.650604, 8.25, 1, -29.599396, 96.5, 1, 29.650604, 96.5, 1, -29.849396, 4.5, 1, -2.8493958, 5.75, 1, -2.8493958, 6, 1, -3.3493958, 4.25, 1, -3.5993958, 7.75, 1, -3.3493958, 2.75, 3.75, -3.0993958, 2.75, 3.75, -2.3493958, 4, 3.75, -2.3493958, 4, 3.75, -3.0993958, 6, 1, -2.3493958, 4.25, 1, -1.8493958, 2.5, 1, -1.8493958, 1.5, 1, 29.150604, 2.25, 1, -2.3493958, -29.5, 1, 28.900604)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(0, 5, 4), PackedInt32Array(7, 6, 8), PackedInt32Array(8, 6, 9), PackedInt32Array(6, 10, 9), PackedInt32Array(9, 10, 11), PackedInt32Array(11, 10, 12), PackedInt32Array(14, 13, 15), PackedInt32Array(15, 13, 16), PackedInt32Array(10, 6, 17), PackedInt32Array(15, 16, 17), PackedInt32Array(17, 16, 10), PackedInt32Array(10, 16, 2), PackedInt32Array(16, 1, 2), PackedInt32Array(21, 20, 18), PackedInt32Array(18, 20, 19), PackedInt32Array(14, 22, 13), PackedInt32Array(13, 22, 23), PackedInt32Array(23, 25, 24), PackedInt32Array(22, 7, 23), PackedInt32Array(23, 7, 8), PackedInt32Array(23, 8, 25), PackedInt32Array(25, 26, 24), PackedInt32Array(26, 25, 5), PackedInt32Array(5, 25, 27), PackedInt32Array(5, 27, 4)]
 agent_radius = 0.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ckvnm"]
@@ -25,7 +27,7 @@ size = Vector3(0.1, 5, 2)
 [node name="Level_Test" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.19251627, 0.93153906, -0.30850044, 0.7408767, 0.06816754, 0.6681728, 0.64345866, -0.3571949, -0.6770323, 8.774181, 5.7276483, -8.358863)
+transform = Transform3D(0.1925163, 0.93153906, -0.30850038, 0.74087673, 0.06816752, 0.6681728, 0.6434587, -0.3571949, -0.6770323, -22.901377, 10.098721, -22.47619)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0bqpm")
@@ -41,8 +43,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.334785, -3.1878848, 4.24186
 navigation_mesh = SubResource("NavigationMesh_nymhu")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.39789, 0, 0)
 use_collision = true
-size = Vector3(60, 1, 60)
+size = Vector3(126.79578, 1, 60)
 
 [node name="Hop_Test" type="StaticBody3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 29.825438, -29.909424, 3.0325422, -0.21344995)
@@ -52,16 +55,6 @@ script = ExtResource("2_0bqpm")
 size = Vector3(0.1, 5, 2)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Hop_Test"]
-shape = SubResource("BoxShape3D_ckvnm")
-
-[node name="Hop_Test2" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(-0.9999585, 0, 0.27172485, 0, 1, 0, -0.00911051, 0, -29.8242, 29.682983, 3.0325422, -0.21344995)
-script = ExtResource("2_0bqpm")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Hop_Test2"]
-size = Vector3(0.1, 5, 2)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Hop_Test2"]
 shape = SubResource("BoxShape3D_ckvnm")
 
 [node name="Hop_Test3" type="StaticBody3D" parent="NavigationRegion3D"]
@@ -88,7 +81,16 @@ shape = SubResource("BoxShape3D_ckvnm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3111238, 0.5078727, -2.7390847)
 
 [node name="Door" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 7.555074, 0.5000005, -2.9725213)
+transform = Transform3D(4.539901, 0, 0, 0, 4.578504, 0, 0, 0, 3, 66.584915, 0.5000005, 14.545531)
+
+[node name="Door2" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
+transform = Transform3D(4.539901, 0, 0, 0, 4.578504, 0, 0, 0, 3, 66.584915, 0.5000005, 12.370006)
+
+[node name="Door3" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
+transform = Transform3D(4.909835, 0, 0, 0, 4.578504, 0, 0, 0, 3, 63.484924, 0.5000005, 24.8922)
+
+[node name="Door4" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
+transform = Transform3D(-1.5386304e-07, 0, 3, 0, 4.578504, 0, -3.5199761, 0, -1.3113416e-07, 60.05918, 0.5000005, 12.007083)
 
 [node name="Ghost" parent="." node_paths=PackedStringArray("PatrolPoints") instance=ExtResource("5_schtk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.127592, -1.6878858, 31.843664)
@@ -108,3 +110,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2671437, -2.6819751, 10.000
 
 [node name="Point4" type="Marker3D" parent="PatrolPath"]
 transform = Transform3D(-0.78526294, 0, -0.61916244, 0, 1, 0, 0.61916244, 0, -0.78526294, 30.552938, -2.6882768, 30.511103)
+
+[node name="repair" parent="." instance=ExtResource("7_acl4f")]
+transform = Transform3D(2.200998, 0, 0, 0, 2.3793752, 0, 0, 0, 1.6210029, 118.56386, -2.3580291, 19.548641)
+
+[node name="Key2" parent="." instance=ExtResource("8_2byqp")]
+transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 3.8244405, -1.6799464, 4.395359)
