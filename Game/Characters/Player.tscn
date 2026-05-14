@@ -4,12 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://cfjnqkwioovm" path="res://Game/Scenes/InventoryUI.tscn" id="2_nygmm"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ehrn4"]
+height = 1.7
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s7sev"]
+radius = 0.5073242
+height = 1.7058105
 
 [sub_resource type="LabelSettings" id="LabelSettings_s7sev"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CameraPivot", "InteractionRay", "InteractionLabel", "InventoryScreen", "HandPosition") groups=["Player"]]
+transform = Transform3D(1.375, 0, 0, 0, 0.931, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_s7sev")
 CameraPivot = NodePath("CameraPivot")
 InteractionRay = NodePath("CameraPivot/Camera3D/RayCast3D")
@@ -18,25 +22,27 @@ InventoryScreen = NodePath("HUD/InventoryUi")
 HandPosition = NodePath("CameraPivot/HandPosition")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027855843, -0.05348426, -0.0031833053)
+transform = Transform3D(0.73789644, 0, 0, 0, 1, 0, 0, 0, 1, -0.027855841, -0.05348426, -0.0031833053)
+visible = false
 mesh = SubResource("CapsuleMesh_ehrn4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.77481526, 0, 0, 0, 1.0271357, 0, 0, 0, 1.0198646, -0.025547286, -0.032077193, -0.013191715)
 shape = SubResource("CapsuleShape3D_s7sev")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -0.2)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(0.7272727, 0, 0, 0, 1.0741138, 0, 0, 0, 1, 0, -0.70414066, 0)
 near = 0.008
 far = 50.0
 
 [node name="RayCast3D" type="RayCast3D" parent="CameraPivot/Camera3D"]
-visible = false
 target_position = Vector3(0, 0, -3)
 
 [node name="HandPosition" type="Marker3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.3, -0.5)
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.7900356, -0.5)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

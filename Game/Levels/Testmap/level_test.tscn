@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bporfyb4i1qwq"]
+[gd_scene load_steps=11 format=3 uid="uid://bporfyb4i1qwq"]
 
 [ext_resource type="PackedScene" uid="uid://boee65t4mts6s" path="res://Game/Characters/Player.tscn" id="1_3nxic"]
 [ext_resource type="Script" uid="uid://c27d2yhdtxqfq" path="res://Scripts/Test/TestCube.cs" id="2_0bqpm"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bqjsgfjv53is3" path="res://Game/Interactables/Flashlight.tscn" id="4_stbj8"]
 [ext_resource type="PackedScene" uid="uid://d2134scemqrwn" path="res://Game/Interactables/door.tscn" id="5_nymhu"]
 [ext_resource type="PackedScene" uid="uid://cxu8jsea3ydp6" path="res://Game/Characters/Ghost.tscn" id="5_schtk"]
-[ext_resource type="PackedScene" uid="uid://dvdt71mlo3l5e" path="res://Game/Levels/repair.glb" id="7_acl4f"]
 [ext_resource type="PackedScene" uid="uid://dstuvirh7brqx" path="res://Game/Art/Models/Key.glb" id="8_2byqp"]
 
 [sub_resource type="Environment" id="Environment_0bqpm"]
@@ -27,16 +26,10 @@ size = Vector3(0.1, 5, 2)
 [node name="Level_Test" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.1925163, 0.93153906, -0.30850038, 0.74087673, 0.06816752, 0.6681728, 0.6434587, -0.3571949, -0.6770323, -22.901377, 10.098721, -22.47619)
+transform = Transform3D(0.1925163, 0.93153906, -0.30850038, 0.74087673, 0.06816752, 0.6681728, 0.6434587, -0.3571949, -0.6770323, -23.779493, 15.442549, -22.769651)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0bqpm")
-
-[node name="Player" parent="." instance=ExtResource("1_3nxic")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0858088, -1.8918594, 5.4011335)
-
-[node name="Flashlight" parent="." instance=ExtResource("4_stbj8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.526937, -1.2149801, 3.345841)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.334785, -3.1878848, 4.241864)
@@ -78,22 +71,13 @@ size = Vector3(0.1, 5, 2)
 shape = SubResource("BoxShape3D_ckvnm")
 
 [node name="Closet" parent="NavigationRegion3D" instance=ExtResource("4_schtk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3111238, 0.5078727, -2.7390847)
+transform = Transform3D(0.040637583, 0, 0.99917394, 0, 1, 0, -0.99917394, 0, 0.040637583, 37.208366, 0.5078726, 23.341713)
 
 [node name="Door" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
-transform = Transform3D(4.539901, 0, 0, 0, 4.578504, 0, 0, 0, 3, 66.584915, 0.5000005, 14.545531)
-
-[node name="Door2" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
-transform = Transform3D(4.539901, 0, 0, 0, 4.578504, 0, 0, 0, 3, 66.584915, 0.5000005, 12.370006)
-
-[node name="Door3" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
-transform = Transform3D(4.909835, 0, 0, 0, 4.578504, 0, 0, 0, 3, 63.484924, 0.5000005, 24.8922)
-
-[node name="Door4" parent="NavigationRegion3D" instance=ExtResource("5_nymhu")]
-transform = Transform3D(-1.5386304e-07, 0, 3, 0, 4.578504, 0, -3.5199761, 0, -1.3113416e-07, 60.05918, 0.5000005, 12.007083)
+transform = Transform3D(4.539901, 0, 0, 0, 4.578504, 0, 0, 0, 3, -14.161316, 0.5000005, 0.5092077)
 
 [node name="Ghost" parent="." node_paths=PackedStringArray("PatrolPoints") instance=ExtResource("5_schtk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.127592, -1.6878858, 31.843664)
+transform = Transform3D(-0.13771945, 0.5766878, 3.8994792, -0.089340836, 1.793398, -1.2682552, -1.9875344, -0.12057389, -0.2131923, -16.051043, 6.9420047, 20.571539)
 platform_wall_layers = 255
 PatrolPoints = [NodePath("../PatrolPath/Point1"), NodePath("../PatrolPath/Point2"), NodePath("../PatrolPath/Point3"), NodePath("../PatrolPath/Point4")]
 
@@ -111,8 +95,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2671437, -2.6819751, 10.000
 [node name="Point4" type="Marker3D" parent="PatrolPath"]
 transform = Transform3D(-0.78526294, 0, -0.61916244, 0, 1, 0, 0.61916244, 0, -0.78526294, 30.552938, -2.6882768, 30.511103)
 
-[node name="repair" parent="." instance=ExtResource("7_acl4f")]
-transform = Transform3D(2.200998, 0, 0, 0, 2.3793752, 0, 0, 0, 1.6210029, 118.56386, -2.3580291, 19.548641)
-
 [node name="Key2" parent="." instance=ExtResource("8_2byqp")]
 transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 3.8244405, -1.6799464, 4.395359)
+
+[node name="Player" parent="." instance=ExtResource("1_3nxic")]
+transform = Transform3D(1.375, 0, 0, 0, 0.931, 0, 0, 0, 1, 45.364376, -1.7935, 26.175486)
+
+[node name="Flashlight" parent="." instance=ExtResource("4_stbj8")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 41.663376, -1.5218804, 25.739168)

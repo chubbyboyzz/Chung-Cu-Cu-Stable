@@ -8,87 +8,95 @@ using ChungCuCu_Stable.Game.Scripts.Resources;
 
 namespace ChungCuCu_Stable.Game.Scripts.Interactables
 {
-    public partial class Flashlight : RigidBody3D, IInteractable, IGhostInteractable
-    {
-        [Export] public SpotLight3D LightSource;
+	public partial class Flashlight : RigidBody3D, IInteractable, IGhostInteractable
+	{
+		[ExportGroup("Components")]
+		[Export] public SpotLight3D LightSource;
 
-        // Dữ liệu thẻ bài để vào túi đồ
-        [ExportGroup("Inventory")]
-        [Export] public ItemData ItemInfo;
+		[ExportGroup("Inventory")]
+		[Export] public ItemData ItemInfo;
 
-        private bool _isOn = false;
-        private bool _isHeld = false;
+		private bool _isOn = false;
+		private bool _isHeld = false;
 
-        public override void _Ready()
-        {
-            if (LightSource != null) LightSource.Visible = false;
-        }
+		public override void _Ready()
+		{
+			if (LightSource != null) LightSource.Visible = false;
 
-        public string GetInteractionPrompt()
-        {
-            return Tr(LocKeys.INTERACT_PICKUP_FLASHLIGHT);
-        }
+			//  Chờ Godot setup xong, đập thẳng Scale về 0.1
+			CallDeferred(nameof(ForceScale), 0.3f);
+		}
 
-        // --- HÀM NGƯỜI NHẶT (ĐÃ GỘT RỬA SẠCH SẼ LỖI CŨ) ---
-        public void Interact(Node interactor)
-        {
-            if (interactor is Player player)
-            {
-                // NẾU CÓ DỮ LIỆU TÚI ĐỒ -> Đưa vào túi
-                if (ItemInfo != null)
-                {
-                    player.AddItem(ItemInfo);
-                    GD.Print("[FLASHLIGHT] Đã nhặt đèn pin vào túi đồ!");
-                    QueueFree(); // Xóa khỏi mặt đất
-                }
-                // NẾU QUÊN GẮN DỮ LIỆU -> Báo lỗi đỏ ra Log chứ không làm sập game nữa
-                else
-                {
-                    GD.PrintErr("[FLASHLIGHT LỖI] Ông chưa kéo file Item_Flashlight.tres vào ô Item Info của cái đèn pin dưới đất!");
-                }
-            }
-        }
+		public string GetInteractionPrompt()
+		{
+			return Tr(LocKeys.INTERACT_PICKUP_FLASHLIGHT);
+		}
 
-        // --- HÀM MA TƯƠNG TÁC ---
-        public void OnGhostInteract(Node ghost)
-        {
-            if (!_isHeld && _isOn)
-            {
-                GD.Print("[ĐÈN PIN] Ma dẫm phải đèn -> Tắt ngóm!");
-                Toggle();
-            }
-        }
+		public void Interact(Node interactor)
+		{
+			if (interactor is Player player)
+			{
+				if (ItemInfo != null)
+				{
+					player.AddItem(ItemInfo);
+					GD.Print("[FLASHLIGHT] Đã nhặt đèn pin vào túi đồ!");
+					QueueFree();
+				}
+			}
+		}
 
-        // --- HÀM BỊ NÉM (DROP) ---
-        public void Drop(Vector3 dropVelocity)
-        {
-            _isHeld = false;
+		public void OnGhostInteract(Node ghost)
+		{
+			if (!_isHeld && _isOn) Toggle();
+		}
 
-            // Đưa lại ra ngoài thế giới thực
-            this.Reparent(GetTree().CurrentScene, true);
+	   
+		// ÉP KÍCH THƯỚC AUTO-SCAN
+		public void ForceScale(float targetScale)
+		{
+			// 1. Khóa mõm Physics Server (Bắt vỏ ngoài phải là 1)
+			this.Scale = Vector3.One;
 
-            // Bật lại vật lý và va chạm
-            Freeze = false;
-            var collider = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
-            if (collider != null) collider.Disabled = false;
+			// 2. Tự động lùng sục mọi ngóc ngách bên trong cây đèn
+			foreach (Node child in GetChildren())
+			{
+				if (child is Node3D node3D)
+				{
+					// Tránh bóp nhầm khối va chạm và ánh sáng (gây lỗi tàng hình)
+					if (node3D is CollisionShape3D || node3D is Light3D) continue;
 
-            // Tác dụng lực ném
-            LinearVelocity = dropVelocity;
+					// Gặp Lưới 3D (Mesh/GLB) là bóp cổ về đúng kích thước
+					node3D.Scale = new Vector3(targetScale, targetScale, targetScale);
+				}
+			}
+		}
 
-            GD.Print("[FLASHLIGHT] Đã vứt đèn!");
-        }
+		// --- HÀM BỊ NÉM (DROP) ---
+		public void Drop(Vector3 dropVelocity)
+		{
+			_isHeld = false;
+			this.Reparent(GetTree().CurrentScene, true);
 
-        // --- CÁC HÀM XỬ LÝ ÁNH SÁNG ---
-        public void Toggle()
-        {
-            _isOn = !_isOn;
-            if (LightSource != null) LightSource.Visible = _isOn;
-        }
+			// Chờ quăng ra xong, đập nó về 0.3
+			CallDeferred(nameof(ForceScale), 0.3f);
 
-        public void TurnOn()
-        {
-            _isOn = true;
-            if (LightSource != null) LightSource.Visible = true;
-        }
-    }
+			Freeze = false;
+			var collider = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
+			if (collider != null) collider.Disabled = false;
+
+			LinearVelocity = dropVelocity;
+		}
+
+		public void Toggle()
+		{
+			_isOn = !_isOn;
+			if (LightSource != null) LightSource.Visible = _isOn;
+		}
+
+		public void TurnOn()
+		{
+			_isOn = true;
+			if (LightSource != null) LightSource.Visible = true;
+		}
+	}
 }

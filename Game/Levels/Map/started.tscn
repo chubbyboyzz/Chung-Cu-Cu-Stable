@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2nohvbncfsbq"]
+
+[ext_resource type="PackedScene" uid="uid://1suff0wc1j87" path="res://Game/Levels/MapScenes/StartedMapOffice.glb" id="1_v2h4v"]
+
+[node name="Started" type="Node3D"]
+
+[node name="StartedMapOffice" parent="." instance=ExtResource("1_v2h4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2170262, 0, -1.2453358)

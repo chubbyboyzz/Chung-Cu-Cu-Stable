@@ -19,7 +19,6 @@ namespace ChungCuCu_Stable.Game.Scripts.Characters
         [Export] public RayCast3D InteractionRay;
         [Export] public Label InteractionLabel;
 
-        // ĐÃ XÓA AttachedFlashlight vì ta dùng cơ chế Lôi từ túi ra!
         private Flashlight _currentFlashlight = null;
         private CollisionShape3D _playerCollider;
 
@@ -121,7 +120,7 @@ namespace ChungCuCu_Stable.Game.Scripts.Characters
                 }
             }
 
-            // --- TEST BẤM PHÍM 'H' (LOGIC LÔI TỪ TÚI RA NHƯ ÔNG MUỐN) ---
+            // --- BẤM PHÍM 'H' (LÔI/CẤT ĐÈN PIN) ---
             if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo && keyEvent.PhysicalKeycode == Key.H)
             {
                 ItemData flashlightData = null;
@@ -184,7 +183,7 @@ namespace ChungCuCu_Stable.Game.Scripts.Characters
             }
         }
 
-        // --- CÁC HÀM TRỐN TÌM, TƯƠNG TÁC (Giữ nguyên) ---
+        // --- CÁC HÀM TRỐN TÌM, TƯƠNG TÁC ---
         public void EnterHidingState(Vector3 hidePos, Vector3 hideRot)
         {
             IsHiding = true;
@@ -237,7 +236,7 @@ namespace ChungCuCu_Stable.Game.Scripts.Characters
         }
 
         // =========================================================
-        // HỆ THỐNG TÚI ĐỒ VÀ CẦM NẮM (MỚI)
+        // HỆ THỐNG TÚI ĐỒ VÀ CẦM NẮM
         // =========================================================
 
         private void ToggleInventory()
@@ -283,7 +282,7 @@ namespace ChungCuCu_Stable.Game.Scripts.Characters
             ToggleInventory();
         }
 
-        // HÀM CHÍNH ĐỂ LÔI ĐỒ TỪ TÚI RA TAY (ĐÃ GẮN RADAR DÒ TỌA ĐỘ)
+        // HÀM CHÍNH ĐỂ LÔI ĐỒ TỪ TÚI RA TAY
         private void SpawnItemToHand(ItemData itemData)
         {
             GD.Print("\n--- BẮT ĐẦU LÔI ĐỒ RA TAY ---");
@@ -299,54 +298,37 @@ namespace ChungCuCu_Stable.Game.Scripts.Characters
             if (HandPosition != null)
             {
                 foreach (Node child in HandPosition.GetChildren()) child.QueueFree();
-
-                // MÁY DÒ 1: Vị trí của Bàn Tay
-                GD.Print($"[RADAR] Tọa độ của Bàn Tay (HandPosition) ngoài thế giới thực: {HandPosition.GlobalPosition}");
             }
             else
             {
                 GD.PrintErr("[LỖI NẶNG] Node HandPosition bị NULL. Ông chưa gán nó vào ô Hand Position trong Inspector của Player!");
-                return; // Dừng luôn nếu không có tay
+                return;
             }
 
             // 2. Lấy Scene đẻ ra
             if (itemData.HandModel != null)
             {
                 Node3D model = itemData.HandModel.Instantiate() as Node3D;
-
-                // MÁY DÒ 2: Xác nhận đã đẻ ra thật chưa
-                if (model != null)
-                {
-                    GD.Print($"[RADAR] Đã Instantiate thành công file 3D! Tên cục 3D là: {model.Name}");
-                }
-
                 HandPosition.AddChild(model);
-
-                // MÁY DÒ 3: Kiểm tra xem nó có thực sự được gắn vào game không
-                if (model.IsInsideTree())
-                {
-                    GD.Print("[RADAR] Đèn pin ĐÃ ĐƯỢC GẮN THÀNH CÔNG vào người Player!");
-                }
 
                 // 3. Reset tọa độ để nằm đúng lòng bàn tay
                 model.Position = Vector3.Zero;
                 model.Rotation = Vector3.Zero;
-
-                // MÁY DÒ 4: Chốt tọa độ cuối cùng của cái đèn
-                GD.Print($"[RADAR] Tọa độ gốc của đèn (so với tay): {model.Position}");
-                GD.Print($"[RADAR] TỌA ĐỘ THỰC TẾ (GlobalPosition) của cái đèn trong map: {model.GlobalPosition}");
 
                 // 4. Đặc quyền cho Đèn pin
                 if (itemData.ItemID == "flashlight" && model is Flashlight fl)
                 {
                     _currentFlashlight = fl;
 
+                  
+                    // Ra lệnh cho Godot: "Trì hoãn 1 khung hình, đợi Physics ổn định rồi HÃY ÉP NÓ LÊN 0.3"
+                    fl.CallDeferred(nameof(fl.ForceScale), 0.3f);
+
                     _currentFlashlight.Freeze = true;
                     var collider = _currentFlashlight.GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
                     if (collider != null) collider.Disabled = true;
 
                     _currentFlashlight.TurnOn();
-                    GD.Print("[RADAR] Bóng đèn đã được BẬT SÁNG (TurnOn) và Khóa Vật Lý (Freeze).");
                 }
 
                 GD.Print("--- KẾT THÚC LÔI ĐỒ ---\n");

@@ -8,6 +8,7 @@
 size = Vector3(0.24951172, 0.27166748, 0.8135376)
 
 [node name="Flashlight" type="RigidBody3D" node_paths=PackedStringArray("LightSource")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 mass = 1.5
 script = ExtResource("1_clean")
 LightSource = NodePath("SpotLight3D")

@@ -1,11 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxu8jsea3ydp6"]
+[gd_scene load_steps=5 format=3 uid="uid://cxu8jsea3ydp6"]
 
 [ext_resource type="Script" uid="uid://drqhgsl5wrpsh" path="res://Scripts/Characters/Ghost.cs" id="1_icgt5"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_m6kb8"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kth5a"]
-albedo_color = Color(1, 0, 0, 1)
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_icgt5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7xtkf"]
 
@@ -19,9 +16,8 @@ Eyes = NodePath("Eyes")
 PatrolPoints = []
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.75130355, 0, 0, 0, 1, 0, 0, 0, 0.59307516, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_m6kb8")
-surface_material_override/0 = SubResource("StandardMaterial3D_kth5a")
+transform = Transform3D(-0.9379122, 0.17142926, -0.19139409, -0.06992175, 0.044903673, 1.9953892, 0.33975226, 0.48248488, -0.11770266, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_icgt5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.75130355, 0, 0, 0, 1, 0, 0, 0, 0.7401254, 0, 0, 0)

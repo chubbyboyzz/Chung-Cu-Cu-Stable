@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dvdt71mlo3l5e"
-path="res://.godot/imported/repair.glb-9619bbd6dd2f903f4bc4c261fda08d02.scn"
+path="res://.godot/imported/repair.glb-971e2cc74ed106c58fab9ba5da87097e.scn"
 
 [deps]
 
-source_file="res://Game/Levels/repair.glb"
-dest_files=["res://.godot/imported/repair.glb-9619bbd6dd2f903f4bc4c261fda08d02.scn"]
+source_file="res://Game/Levels/Testmap/repair.glb"
+dest_files=["res://.godot/imported/repair.glb-971e2cc74ed106c58fab9ba5da87097e.scn"]
 
 [params]
 

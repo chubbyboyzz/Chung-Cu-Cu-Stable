@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://d4ywxx83cvn7"
-path="res://.godot/imported/house x.glb-3773330d103c06348c2092b1e9e75d4c.scn"
+path="res://.godot/imported/house x.glb-1f258cb9b2f2200eacd2f733d1dd73a5.scn"
 
 [deps]
 
-source_file="res://Game/Levels/house x.glb"
-dest_files=["res://.godot/imported/house x.glb-3773330d103c06348c2092b1e9e75d4c.scn"]
+source_file="res://Game/Levels/Testmap/house x.glb"
+dest_files=["res://.godot/imported/house x.glb-1f258cb9b2f2200eacd2f733d1dd73a5.scn"]
 
 [params]
 
@@ -29,7 +29,7 @@ meshes/lightmap_texel_size=0.2
 meshes/force_disable_compression=false
 skins/use_named_skins=true
 animation/import=true
-animation/fps=30
+animation/fps=120.0
 animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
